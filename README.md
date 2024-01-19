@@ -2,15 +2,4 @@
 
 밴드할래? 어플리케이션
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Group 38](https://github.com/iikkkkyy/band-community/assets/99002135/021723ef-31fc-4f68-bb55-f0c0bd364173)
