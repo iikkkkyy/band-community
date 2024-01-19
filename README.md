@@ -2,4 +2,5 @@
 
 밴드할래? 어플리케이션
 
-![Group 38](https://github.com/iikkkkyy/band-community/assets/99002135/021723ef-31fc-4f68-bb55-f0c0bd364173)
+
+![Group 38-2](https://github.com/iikkkkyy/band-community/assets/99002135/0154b134-7bab-447d-a65e-934ebe06b62e)
