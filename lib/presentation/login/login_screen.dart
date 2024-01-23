@@ -33,13 +33,28 @@ class _LoginScreenState extends State<LoginScreen> {
               width: 393,
               height: 55,
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: TextField(
+              child: TextFormField(
+                key: const ValueKey(1),
+                validator: (value) {
+                  if(value!.isEmpty || value.length < 4) {
+                    return 'Please enter at least 4 charactors';
+                  }
+                  return null;
+                },
                 controller: _idTextController,
+                cursorColor: Colors.grey.shade600,
+                style: const TextStyle(fontSize: 14),
                 decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.account_circle),
+                  focusColor: Colors.black,
+                  hoverColor: Colors.black,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  hintStyle: TextStyle(color: Colors.grey[800],fontSize: 14),
+                  hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
                   hintText: '아이디를 입력하세요.',
                 ),
               ),
@@ -51,13 +66,23 @@ class _LoginScreenState extends State<LoginScreen> {
               width: 393,
               height: 55,
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: TextField(
+              child: TextFormField(
+                key: const ValueKey(2),
                 controller: _passWordTextController,
+                obscureText: true,
+                cursorColor: Colors.grey.shade600,
+                style: const TextStyle(fontSize: 14),
                 decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.lock),
+                  focusColor: Colors.black,
+                  hoverColor: Colors.black,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  hintStyle: TextStyle(color: Colors.grey[800],fontSize: 14),
+                  hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
                   hintText: '비밀번호를 입력하세요.',
                 ),
               ),
