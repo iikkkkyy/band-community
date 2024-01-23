@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../config/palette.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,7 +9,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool isSignupScreen = true;
+  final _idTextController = TextEditingController();
+  final _passWordTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,151 +23,121 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Stack(
         children: [
           Positioned(
-            left: 100,
+            left: 110,
             top: 150,
             child: SvgPicture.asset('assets/icons/MainIcon.svg'),
           ),
           Positioned(
-            left: 18,
             top: 291,
             child: Container(
-              width: 358,
+              width: 393,
               height: 55,
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              clipBehavior: Clip.antiAlias,
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    color: Colors.black.withOpacity(0.5),
+              child: TextField(
+                controller: _idTextController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  borderRadius: BorderRadius.circular(12),
+                  hintStyle: TextStyle(color: Colors.grey[800],fontSize: 14),
+                  hintText: '아이디를 입력하세요.',
                 ),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    '아이디를 입력하세요.',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.6000000238418579),
-                      fontSize: 14,
-                      fontFamily: 'Noto Sans',
-                      fontWeight: FontWeight.w400,
-                      height: 0.11,
-                      letterSpacing: -0.43,
-                    ),
-                  ),
-                ],
               ),
             ),
           ),
           Positioned(
-            left: 18,
             top: 358,
             child: Container(
-              width: 358,
+              width: 393,
               height: 55,
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              clipBehavior: Clip.antiAlias,
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    color: Colors.black.withOpacity(0.5),
+              child: TextField(
+                controller: _passWordTextController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  borderRadius: BorderRadius.circular(12),
+                  hintStyle: TextStyle(color: Colors.grey[800],fontSize: 14),
+                  hintText: '비밀번호를 입력하세요.',
                 ),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    '비밀번호를 입력하세요.',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.6000000238418579),
-                      fontSize: 14,
-                      fontFamily: 'Noto Sans',
-                      fontWeight: FontWeight.w400,
-                      height: 0.11,
-                      letterSpacing: -0.43,
-                    ),
-                  ),
-                ],
               ),
             ),
           ),
           Positioned(
-            left: 18,
-            top: 439,
-            child: Container(
-              width: 358,
-              height: 55,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              clipBehavior: Clip.antiAlias,
-              decoration: ShapeDecoration(
-                color: Colors.black,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    '로그인',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontFamily: 'Noto Sans',
-                      fontWeight: FontWeight.w400,
-                      height: 0.09,
-                      letterSpacing: -0.43,
-                    ),
+            left: 5,
+            top: 425,
+            child: TextButton(
+              onPressed: () {
+                print('로그인');
+              },
+              child: Container(
+                width: 358,
+                height: 55,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                clipBehavior: Clip.antiAlias,
+                decoration: ShapeDecoration(
+                  color: Colors.black,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                ],
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      '로그인',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontFamily: 'Noto Sans',
+                        fontWeight: FontWeight.w400,
+                        height: 0.09,
+                        letterSpacing: -0.43,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
           Positioned(
-            left: 18,
-            top: 506,
-            child: Container(
-              width: 358,
-              height: 55,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              clipBehavior: Clip.antiAlias,
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  side: const BorderSide(width: 1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    '회원가입',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontFamily: 'Noto Sans',
-                      fontWeight: FontWeight.w400,
-                      height: 0.09,
-                      letterSpacing: -0.43,
-                    ),
+            left: 5,
+            top: 490,
+            child: TextButton(
+              onPressed: () {
+                print('회원가입');
+              },
+              child: Container(
+                width: 358,
+                height: 55,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                clipBehavior: Clip.antiAlias,
+                decoration: ShapeDecoration(
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(width: 1),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                ],
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      '회원가입',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontFamily: 'Noto Sans',
+                        fontWeight: FontWeight.w400,
+                        height: 0.09,
+                        letterSpacing: -0.43,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
