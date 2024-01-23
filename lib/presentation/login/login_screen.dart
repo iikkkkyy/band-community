@@ -22,10 +22,11 @@ class _LoginScreenState extends State<LoginScreen> {
         body: Form(
           key: viewModel.formKey,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              const SizedBox(height: 140,),
               SvgPicture.asset('assets/icons/MainIcon.svg'),
-              SizedBox(height: 70,),
+              const SizedBox(height: 120,),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextFormField(
