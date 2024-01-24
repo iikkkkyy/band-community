@@ -1,4 +1,6 @@
+import 'package:band_community/presentation/signup/signup_screen_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignUpIdScreen extends StatefulWidget {
   const SignUpIdScreen({super.key});
@@ -15,6 +17,7 @@ class _SignUpIdScreenState extends State<SignUpIdScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<SignUpViewModel>();
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -31,12 +34,12 @@ class _SignUpIdScreenState extends State<SignUpIdScreen> {
         ),
       ),
       body: Form(
+        key: viewModel.formKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              height: 60,
               child: TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 key: const ValueKey(1),
@@ -63,17 +66,16 @@ class _SignUpIdScreenState extends State<SignUpIdScreen> {
                   hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
                   hintText: '아이디를 입력하세요.',
                 ),
-                // onSaved: (value) {
-                //   viewModel.userEmail = value!;
-                // },
-                // onChanged: (value) {
-                //   viewModel.userEmail = value;
-                // },
+                onSaved: (value) {
+                  viewModel.userEmail = value!;
+                },
+                onChanged: (value) {
+                  viewModel.userEmail = value;
+                },
               ),
             ),
             SizedBox(height: 13,),
             Container(
-              height: 60,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
                 key: const ValueKey(2),
@@ -101,17 +103,16 @@ class _SignUpIdScreenState extends State<SignUpIdScreen> {
                   hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
                   hintText: '비밀번호를 입력하세요.',
                 ),
-                // onSaved: (value) {
-                //   viewModel.userPassword = value!;
-                // },
-                // onChanged: (value) {
-                //   viewModel.userPassword = value;
-                // },
+                onSaved: (value) {
+                  viewModel.userPassword = value!;
+                },
+                onChanged: (value) {
+                  viewModel.userPassword = value;
+                },
               ),
             ),
             SizedBox(height: 13,),
             Container(
-              height: 60,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
                 key: const ValueKey(2),
@@ -139,20 +140,40 @@ class _SignUpIdScreenState extends State<SignUpIdScreen> {
                   hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
                   hintText: '비밀번호를 한번 더 입력하세요.',
                 ),
-                // onSaved: (value) {
-                //   viewModel.userPassword = value!;
-                // },
-                // onChanged: (value) {
-                //   viewModel.userPassword = value;
-                // },
+                onSaved: (value) {
+                  viewModel.userPassword = value!;
+                },
+                onChanged: (value) {
+                  viewModel.userPassword = value;
+                },
               ),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 15,),
+            const Padding(
+              padding: EdgeInsets.only(left: 22),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    '*영문,특수문자 포함 8~12자',
+                    style: TextStyle(
+                      color: Color(0xFF515151),
+                      fontSize: 12,
+                      fontFamily: 'Noto Sans',
+                      fontWeight: FontWeight.w400,
+                      height: 0.15,
+                      letterSpacing: -0.43,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 15,),
             TextButton(
               onPressed: () {
-                // viewModel.tryValidation();
-                // print('Email : ${viewModel.userEmail}');
-                // print('Password : ${viewModel.userPassword}');
+                viewModel.tryValidation();
+                print('Email : ${viewModel.userEmail}');
+                print('Password : ${viewModel.userPassword}');
               },
               child: Container(
                 width: 358,
