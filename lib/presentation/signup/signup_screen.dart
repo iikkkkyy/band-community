@@ -14,7 +14,6 @@ class _SignUpIdScreenState extends State<SignUpIdScreen> {
   final _passWordTextController = TextEditingController();
   final _rePassWordTextController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<SignUpViewModel>();
@@ -45,7 +44,7 @@ class _SignUpIdScreenState extends State<SignUpIdScreen> {
                 key: const ValueKey(1),
                 validator: (value) {
                   //TODO Validation 구현
-                  if(value!.isEmpty || value.length < 4) {
+                  if (value!.isEmpty || value.length < 4) {
                     return 'Please enter at least 4 charactors';
                   }
                   return null;
@@ -74,14 +73,16 @@ class _SignUpIdScreenState extends State<SignUpIdScreen> {
                 },
               ),
             ),
-            SizedBox(height: 13,),
+            SizedBox(
+              height: 13,
+            ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
                 key: const ValueKey(2),
                 validator: (value) {
                   //TODO Validation 구현
-                  if(value!.isEmpty || value.length < 4) {
+                  if (value!.isEmpty || value.length < 4) {
                     return 'Please enter at least 4 charactors';
                   }
                   return null;
@@ -111,14 +112,16 @@ class _SignUpIdScreenState extends State<SignUpIdScreen> {
                 },
               ),
             ),
-            SizedBox(height: 13,),
+            SizedBox(
+              height: 13,
+            ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
                 key: const ValueKey(2),
                 validator: (value) {
                   //TODO Validation 구현
-                  if(value!.isEmpty || value.length < 4) {
+                  if (value!.isEmpty || value.length < 4) {
                     return 'Please enter at least 4 charactors';
                   }
                   return null;
@@ -148,7 +151,9 @@ class _SignUpIdScreenState extends State<SignUpIdScreen> {
                 },
               ),
             ),
-            const SizedBox(height: 15,),
+            const SizedBox(
+              height: 15,
+            ),
             const Padding(
               padding: EdgeInsets.only(left: 22),
               child: Row(
@@ -168,10 +173,24 @@ class _SignUpIdScreenState extends State<SignUpIdScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 15,),
+            const SizedBox(
+              height: 15,
+            ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 viewModel.tryValidation();
+                try {
+                  await viewModel.authentication.createUserWithEmailAndPassword(
+                      email: viewModel.userEmail,
+                      password: viewModel.userPassword);
+                } catch (e) {
+                  print(e);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text(
+                          'Please Check your email address and password')
+                        , backgroundColor: Colors.blue,)
+                  );
+                }
                 print('Email : ${viewModel.userEmail}');
                 print('Password : ${viewModel.userPassword}');
               },
@@ -208,9 +227,7 @@ class _SignUpIdScreenState extends State<SignUpIdScreen> {
             ),
           ],
         ),
-
       ),
-
     );
   }
 }
