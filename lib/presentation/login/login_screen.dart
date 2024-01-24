@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
 import 'login_view_model.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -28,8 +27,10 @@ class _LoginScreenState extends State<LoginScreen> {
               SvgPicture.asset('assets/icons/MainIcon.svg'),
               const SizedBox(height: 120,),
               Container(
+                height: 60,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextFormField(
+                  keyboardType: TextInputType.emailAddress,
                   key: const ValueKey(1),
                   validator: (value) {
                     //TODO Validation 구현
@@ -64,6 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: 13,),
               Container(
+                height: 60,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextFormField(
                   key: const ValueKey(2),
