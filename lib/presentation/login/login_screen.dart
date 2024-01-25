@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'login_view_model.dart';
 
@@ -23,11 +24,10 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const SizedBox(height: 140,),
+              const SizedBox(height: 155,),
               SvgPicture.asset('assets/icons/MainIcon.svg'),
-              const SizedBox(height: 120,),
+              const SizedBox(height: 95,),
               Container(
-                height: 60,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextFormField(
                   keyboardType: TextInputType.emailAddress,
@@ -65,7 +65,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: 13,),
               Container(
-                height: 60,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextFormField(
                   key: const ValueKey(2),
@@ -142,6 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
               TextButton(
                 onPressed: () {
                   print('회원가입');
+                  context.go('/signup');
                 },
                 child: Container(
                   width: 358,
