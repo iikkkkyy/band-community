@@ -1,18 +1,22 @@
+import 'package:band_community/presentation/signup/error_case/firebase_auth_error_code.dart';
+import 'package:band_community/presentation/signup/error_case/signup_validation.dart';
 import 'package:band_community/presentation/signup/signup_screen_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SignUpIdScreen extends StatefulWidget {
-  const SignUpIdScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<SignUpIdScreen> createState() => _SignUpIdScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpIdScreenState extends State<SignUpIdScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final _idTextController = TextEditingController();
   final _passWordTextController = TextEditingController();
   final _rePassWordTextController = TextEditingController();
+  final FocusNode _emailFocus = FocusNode();
+  final FocusNode _passwordFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -40,20 +44,22 @@ class _SignUpIdScreenState extends State<SignUpIdScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
+                focusNode: _emailFocus,
                 keyboardType: TextInputType.emailAddress,
                 key: const ValueKey(1),
-                validator: (value) {
-                  //TODO Validation 구현
-                  if (value!.isEmpty || value.length < 4) {
-                    return 'Please enter at least 4 charactors';
-                  }
-                  return null;
-                },
+                // validator: (value) {
+                //   return idValidation(value!);
+                // },
+                validator: (value) =>
+                    CheckValidate().validateEmail(_emailFocus, value!),
                 controller: _idTextController,
                 cursorColor: Colors.grey.shade600,
                 style: const TextStyle(fontSize: 14),
                 decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.account_circle),
+                  prefixIcon: const Icon(
+                    Icons.account_circle,
+                    size: 20,
+                  ),
                   focusColor: Colors.black,
                   hoverColor: Colors.black,
                   focusedBorder: OutlineInputBorder(
@@ -73,26 +79,24 @@ class _SignUpIdScreenState extends State<SignUpIdScreen> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 13,
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
                 key: const ValueKey(2),
-                validator: (value) {
-                  //TODO Validation 구현
-                  if (value!.isEmpty || value.length < 4) {
-                    return 'Please enter at least 4 charactors';
-                  }
-                  return null;
-                },
+                validator: (value) =>
+                    CheckValidate().validatePassword(_passwordFocus, value!),
                 controller: _passWordTextController,
                 obscureText: true,
                 cursorColor: Colors.grey.shade600,
                 style: const TextStyle(fontSize: 14),
                 decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.lock),
+                  prefixIcon: const Icon(
+                    Icons.lock,
+                    size: 20,
+                  ),
                   focusColor: Colors.black,
                   hoverColor: Colors.black,
                   focusedBorder: OutlineInputBorder(
@@ -112,26 +116,24 @@ class _SignUpIdScreenState extends State<SignUpIdScreen> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 13,
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
                 key: const ValueKey(2),
-                validator: (value) {
-                  //TODO Validation 구현
-                  if (value!.isEmpty || value.length < 4) {
-                    return 'Please enter at least 4 charactors';
-                  }
-                  return null;
-                },
+                validator: (value) => CheckValidate().validateRePassword(
+                    _emailFocus, value!, _passWordTextController.text),
                 controller: _rePassWordTextController,
                 obscureText: true,
                 cursorColor: Colors.grey.shade600,
                 style: const TextStyle(fontSize: 14),
                 decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.lock),
+                  prefixIcon: const Icon(
+                    Icons.lock,
+                    size: 20,
+                  ),
                   focusColor: Colors.black,
                   hoverColor: Colors.black,
                   focusedBorder: OutlineInputBorder(
@@ -155,7 +157,7 @@ class _SignUpIdScreenState extends State<SignUpIdScreen> {
               height: 15,
             ),
             const Padding(
-              padding: EdgeInsets.only(left: 22),
+              padding: EdgeInsets.only(left: 25),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -178,21 +180,22 @@ class _SignUpIdScreenState extends State<SignUpIdScreen> {
             ),
             TextButton(
               onPressed: () async {
-                viewModel.tryValidation();
-                try {
-                  await viewModel.authentication.createUserWithEmailAndPassword(
-                      email: viewModel.userEmail,
-                      password: viewModel.userPassword);
-                } catch (e) {
-                  print(e);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text(
-                          'Please Check your email address and password')
-                        , backgroundColor: Colors.blue,)
-                  );
+                bool isValid = viewModel.tryValidation();
+                if (isValid) {
+                  try {
+                    await viewModel.authentication
+                        .createUserWithEmailAndPassword(
+                            email: viewModel.userEmail,
+                            password: viewModel.userPassword);
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(getFireBaseErrorMessage(e.toString())),
+                      backgroundColor: Colors.red,
+                    ));
+                  }
+                  print('Email : ${viewModel.userEmail}');
+                  print('Password : ${viewModel.userPassword}');
                 }
-                print('Email : ${viewModel.userEmail}');
-                print('Password : ${viewModel.userPassword}');
               },
               child: Container(
                 width: 358,
