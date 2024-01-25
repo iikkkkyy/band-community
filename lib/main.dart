@@ -1,11 +1,16 @@
 import 'package:band_community/presentation/login/login_screen.dart';
 import 'package:band_community/presentation/login/login_view_model.dart';
+import 'package:band_community/presentation/signup/signup_screen.dart';
+import 'package:band_community/presentation/signup/signup_screen_view_model.dart';
+import 'package:band_community/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'di/di_setup.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  diSetup();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -18,16 +23,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => LoginViewModel(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
-          useMaterial3: true,
-        ),
-        home: const LoginScreen(),
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      routerConfig: router,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
+        useMaterial3: true,
       ),
     );
   }
