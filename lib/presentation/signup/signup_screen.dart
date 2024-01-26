@@ -2,6 +2,7 @@ import 'package:band_community/presentation/signup/error_case/firebase_auth_erro
 import 'package:band_community/presentation/signup/error_case/signup_validation.dart';
 import 'package:band_community/presentation/signup/signup_screen_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -69,7 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
-                  hintText: '아이디를 입력하세요.',
+                  hintText: '이메일을 입력하세요.',
                 ),
                 onSaved: (value) {
                   viewModel.userEmail = value!;
@@ -187,12 +188,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         .createUserWithEmailAndPassword(
                             email: viewModel.userEmail,
                             password: viewModel.userPassword);
+
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text(getFireBaseErrorMessage(e.toString())),
                       backgroundColor: Colors.red,
                     ));
                   }
+                  context.go('/profile');
                   print('Email : ${viewModel.userEmail}');
                   print('Password : ${viewModel.userPassword}');
                 }
