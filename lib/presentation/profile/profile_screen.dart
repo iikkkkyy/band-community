@@ -50,8 +50,8 @@ class _SignUpProfileScreenState extends State<SignUpProfileScreen> {
               },
               child: CircleAvatar(
                 radius: 45,
-                backgroundImage: FileImage(_viewModel.image as File),
-                  onBackgroundImageError : AssetImage('assets/profile/Default.png'),
+                backgroundImage: _viewModel.getUserImage(),
+                  // onBackgroundImageError : AssetImage('assets/profile/Default.png'),
                 // AssetImage('assets/profile/Default.png'),
               ),
             ),
