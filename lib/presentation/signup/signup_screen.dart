@@ -188,14 +188,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         .createUserWithEmailAndPassword(
                             email: viewModel.userEmail,
                             password: viewModel.userPassword);
-
+                    context.go('/profile');
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text(getFireBaseErrorMessage(e.toString())),
                       backgroundColor: Colors.red,
                     ));
                   }
-                  context.go('/profile');
+
                   print('Email : ${viewModel.userEmail}');
                   print('Password : ${viewModel.userPassword}');
                 }
