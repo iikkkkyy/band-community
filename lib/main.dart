@@ -1,20 +1,20 @@
-import 'package:band_community/presentation/login/login_screen.dart';
-import 'package:band_community/presentation/login/login_view_model.dart';
-import 'package:band_community/presentation/signup/signup_screen.dart';
-import 'package:band_community/presentation/signup/signup_screen_view_model.dart';
 import 'package:band_community/routes.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'di/di_setup.dart';
-import 'firebase_options.dart';
+import 'package:band_community/config/supabase_options.dart';
+// import 'firebase_options.dart';
 
 void main() async {
   diSetup();
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+  // Firebase => Supabase 변경
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
+  await Supabase.initialize(
+    url: SUPABASE_URL,
+    anonKey: SUPABASE_ANON_KEY,
   );
   runApp(const MyApp());
 }
