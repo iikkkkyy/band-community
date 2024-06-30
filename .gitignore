@@ -46,3 +46,6 @@ app.*.map.json
 /lib/firebase_options.dart
 google-services.json
 firebase_app_id_file.json
+
+## Supabase options
+/lib/config/supabase_options.dart
