@@ -13,11 +13,15 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final _nameTextController = TextEditingController();
   final _idTextController = TextEditingController();
   final _passWordTextController = TextEditingController();
   final _rePassWordTextController = TextEditingController();
+  final _phoneNumberTextController = TextEditingController();
+  final FocusNode _nameFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
+  final FocusNode _phoneFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +46,45 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            // UserName
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: TextFormField(
+                focusNode: _nameFocus,
+                keyboardType: TextInputType.text,
+                key: const ValueKey(3),
+                validator: (value) =>
+                    CheckValidate().validateEmail(_emailFocus, value!),
+                controller: _nameTextController,
+                cursorColor: Colors.grey.shade600,
+                style: const TextStyle(fontSize: 14),
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(
+                    Icons.account_circle,
+                    size: 20,
+                  ),
+                  focusColor: Colors.black,
+                  hoverColor: Colors.black,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
+                  hintText: '회원명을 입력하세요.',
+                ),
+                onSaved: (value) {
+                  viewModel.userEmail = value!;
+                },
+                onChanged: (value) {
+                  viewModel.userEmail = value;
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 13,
+            ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
@@ -58,7 +101,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 style: const TextStyle(fontSize: 14),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(
-                    Icons.account_circle,
+                    Icons.phone,
+                    size: 20,
+                  ),
+                  focusColor: Colors.black,
+                  hoverColor: Colors.black,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
+                  hintText: '전화번호를 입력하세요.',
+                ),
+                onSaved: (value) {
+                  viewModel.userEmail = value!;
+                },
+                onChanged: (value) {
+                  viewModel.userEmail = value;
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 13,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: TextFormField(
+                focusNode: _emailFocus,
+                keyboardType: TextInputType.emailAddress,
+                key: const ValueKey(1),
+                // validator: (value) {
+                //   return idValidation(value!);
+                // },
+                validator: (value) =>
+                    CheckValidate().validateEmail(_emailFocus, value!),
+                controller: _idTextController,
+                cursorColor: Colors.grey.shade600,
+                style: const TextStyle(fontSize: 14),
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(
+                    Icons.email_outlined,
                     size: 20,
                   ),
                   focusColor: Colors.black,
@@ -163,7 +247,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    '*영문,특수문자 포함 8~12자',
+                    '*영문,특수문자 포함 8~15자',
                     style: TextStyle(
                       color: Color(0xFF515151),
                       fontSize: 12,
@@ -184,10 +268,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 bool isValid = viewModel.tryValidation();
                 if (isValid) {
                   try {
-                    await viewModel.authentication
-                        .createUserWithEmailAndPassword(
-                            email: viewModel.userEmail,
-                            password: viewModel.userPassword);
+                    await viewModel.authentication.auth.signUp(
+                      email: viewModel.userEmail,
+                      password: viewModel.userPassword,
+                      data: {
+                        'display_name': '',
+                        'user_name': '',
+                        'phone': '',
+                      },
+                    );
+                    print('회원가입 성공');
+                    // 로그인을 해야될까?
+                    // await viewModel.authentication.auth.signUp(
+                    //     email: viewModel.userEmail,
+                    //     password: viewModel.userPassword,
+                    //     data: {
+                    //       'display_name': '',
+                    //       'user_name': '',
+                    //       'phone': '',
+                    //     });
+                    print('로그인 성공');
                     context.go('/profile');
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
