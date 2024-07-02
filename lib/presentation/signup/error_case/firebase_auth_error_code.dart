@@ -14,6 +14,7 @@ String getFireBaseErrorMessage(String code) {
   } else if (code.contains('internal-error')) {
     return "잘못된 요청입니다.";
   } else {
-    return "로그인에 실패 하였습니다.";
+    print(code);
+    return code;
   }
 }
