@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:band_community/presentation/profile/profile_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -13,17 +12,15 @@ class SignUpProfileScreen extends StatefulWidget {
 }
 
 class _SignUpProfileScreenState extends State<SignUpProfileScreen> {
-  late SignUpProfileViewModel _viewModel;
+  final _nameTextController = TextEditingController();
+  final _phoneNumberTextController = TextEditingController();
+  final _introduceTextController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    _viewModel = context.read<SignUpProfileViewModel>();
-  }
-  
-  @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<SignUpProfileViewModel>();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text(
           '프로필 설정',
@@ -38,37 +35,358 @@ class _SignUpProfileScreenState extends State<SignUpProfileScreen> {
           ),
         ),
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            const SizedBox(
-              height: 17,
+      body: Column(
+        children: [
+          Center(
+            child: Column(
+              children: <Widget>[
+                const SizedBox(
+                  height: 17,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    await _showBottomSheet(viewModel);
+                    setState(() {});
+                  },
+                  child: CircleAvatar(
+                    radius: 55,
+                    backgroundImage: viewModel.getUserImage(),
+                  ),
+                ),
+              ],
             ),
-            GestureDetector(
-              onTap: () {
-                _showBottomSheet();
-              },
-              child: CircleAvatar(
-                radius: 45,
-                backgroundImage: _viewModel.getUserImage(),
-                  // onBackgroundImageError : AssetImage('assets/profile/Default.png'),
-                // AssetImage('assets/profile/Default.png'),
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          const Row(
+            children: [
+              SizedBox(
+                width: 25,
               ),
-            ),
-          ],
+              Text('기본 프로필',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontFamily: 'Noto Sans',
+                    fontWeight: FontWeight.w800,
+                  )),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  key: const ValueKey(1),
+                  controller: _nameTextController,
+                  cursorColor: Colors.grey.shade600,
+                  style: const TextStyle(fontSize: 14),
+                  decoration: InputDecoration(
+                    prefix: Text(' '),
+                    focusColor: Colors.black,
+                    hoverColor: Colors.black,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
+                    hintText: '이름을 입력하세요.',
+                  ),
+                  onSaved: (value) {
+                    // viewModel.userEmail = value!;
+                  },
+                  onChanged: (value) {
+                    // viewModel.userEmail = value;
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 13,
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TextFormField(
+                  key: const ValueKey(2),
+                  keyboardType: TextInputType.phone,
+                  controller: _phoneNumberTextController,
+                  cursorColor: Colors.grey.shade600,
+                  style: const TextStyle(fontSize: 14),
+                  decoration: InputDecoration(
+                    prefix: Text(' '),
+                    focusColor: Colors.black,
+                    hoverColor: Colors.black,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
+                    hintText: '연락처를 입력하세요.',
+                  ),
+                  onSaved: (value) {
+                    // viewModel.userPassword = value!;
+                  },
+                  onChanged: (value) {
+                    // viewModel.userPassword = value;
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 13,
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TextFormField(
+                  key: const ValueKey(2),
+                  controller: _introduceTextController,
+                  cursorColor: Colors.grey.shade600,
+                  style: const TextStyle(fontSize: 14),
+                  decoration: InputDecoration(
+                    prefix: Text(' '),
+                    focusColor: Colors.black,
+                    hoverColor: Colors.black,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
+                    hintText: '한줄소개를 입력하세요.',
+                  ),
+                  onSaved: (value) {
+                    // viewModel.userPassword = value!;
+                  },
+                  onChanged: (value) {
+                    // viewModel.userPassword = value;
+                  },
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          const Row(
+            children: [
+              SizedBox(
+                width: 25,
+              ),
+              Text('세션',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontFamily: 'Noto Sans',
+                    fontWeight: FontWeight.w800,
+                  )),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              const SizedBox(
+                width: 20,
+              ),
+              SizedBox(
+                height: 37,
+                width: 67,
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      viewModel.vocal = !viewModel.vocal;
+                    });
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        viewModel.vocal == true ? Colors.grey : Colors.black,
+                  ),
+                  child: const Text(
+                    '🎙️보컬',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              SizedBox(
+                height: 37,
+                width: 67,
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      viewModel.guitar = !viewModel.guitar;
+                    });
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        viewModel.guitar == true ? Colors.grey : Colors.black,
+                  ),
+                  child: const Text(
+                    '🎸기타',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              SizedBox(
+                height: 37,
+                width: 79,
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      viewModel.bass = !viewModel.bass;
+                    });
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        viewModel.bass == true ? Colors.grey : Colors.black,
+                  ),
+                  child: const Text(
+                    '⛺️베이스',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              SizedBox(
+                height: 37,
+                width: 67,
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      viewModel.drum = !viewModel.drum;
+                    });
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        viewModel.drum == true ? Colors.grey : Colors.black,
+                  ),
+                  child: const Text(
+                    '🥁️드럼',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              const SizedBox(
+                width: 20,
+              ),
+              SizedBox(
+                height: 37,
+                width: 67,
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      viewModel.synth = !viewModel.synth;
+                    });
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        viewModel.synth == true ? Colors.grey : Colors.black,
+                  ),
+                  child: const Text(
+                    '🎹️건반',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              SizedBox(
+                height: 37,
+                width: 79,
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      viewModel.manager = !viewModel.manager;
+                    });
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        viewModel.manager == true ? Colors.grey : Colors.black,
+                  ),
+                  child: const Text(
+                    '🧑‍💼매니저',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              SizedBox(
+                height: 37,
+                width: 70,
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      viewModel.etc = !viewModel.etc;
+                    });
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                    viewModel.etc == true ? Colors.grey : Colors.black,
+                  ),
+                  child: const Text(
+                    '🎵etc.',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      bottomNavigationBar: Container(
+        height: 105,
+        child: Padding(
+          padding: EdgeInsets.all(30),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.black,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+            onPressed: () {},
+            child: Text('설정 완료',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+          ),
         ),
       ),
     );
   }
 
-  _showBottomSheet() {
+  _showBottomSheet(SignUpProfileViewModel viewModel) {
     return showModalBottomSheet(
         context: context,
-        // shape: const RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.vertical(
-        //     top: Radius.circular(25),
-        //   ),
-        // ),
         builder: (context) {
           return Column(
             mainAxisSize: MainAxisSize.min,
@@ -88,8 +406,9 @@ class _SignUpProfileScreenState extends State<SignUpProfileScreen> {
                 height: 5,
               ),
               TextButton(
-                  onPressed: () {
-                    _viewModel.uploadImageToStorage(ImageSource.gallery);
+                  onPressed: () async {
+                    await viewModel.selectImage(ImageSource.gallery);
+                    context.pop();
                   },
                   child: const Text(
                     '갤러리에서 사진 선택',
