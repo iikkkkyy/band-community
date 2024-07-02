@@ -5,7 +5,7 @@ class CheckValidate {
   String? validateName(FocusNode focusNode, String value) {
     if (value.isEmpty) {
       focusNode.requestFocus();
-      return '회원명을 입력하세요.';
+      return '닉네임을 입력하세요.';
     } else {
         return null;
     }
