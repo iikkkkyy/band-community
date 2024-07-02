@@ -72,7 +72,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
-                  hintText: '회원명을 입력하세요.',
+                  hintText: '닉네임을 입력하세요.',
                 ),
                 onSaved: (value) {
                   viewModel.userEmail = value!;
