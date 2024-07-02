@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CheckValidate {
+
+  String? validateName(FocusNode focusNode, String value) {
+    if (value.isEmpty) {
+      focusNode.requestFocus();
+      return '회원명을 입력하세요.';
+    } else {
+        return null;
+    }
+  }
+
   String? validateEmail(FocusNode focusNode, String value) {
     if (value.isEmpty) {
       focusNode.requestFocus();
