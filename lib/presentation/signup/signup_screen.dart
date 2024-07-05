@@ -1,7 +1,9 @@
 import 'package:band_community/presentation/signup/error_case/firebase_auth_error_code.dart';
 import 'package:band_community/presentation/signup/error_case/signup_validation.dart';
+import 'package:band_community/presentation/signup/phone_number_formatter.dart';
 import 'package:band_community/presentation/signup/signup_screen_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -54,7 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 keyboardType: TextInputType.text,
                 key: const ValueKey(3),
                 validator: (value) =>
-                    CheckValidate().validateEmail(_emailFocus, value!),
+                    CheckValidate().validateName(_nameFocus, value!),
                 controller: _nameTextController,
                 cursorColor: Colors.grey.shade600,
                 style: const TextStyle(fontSize: 14),
@@ -75,10 +77,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   hintText: '닉네임을 입력하세요.',
                 ),
                 onSaved: (value) {
-                  viewModel.userEmail = value!;
+                  viewModel.userName = value!;
                 },
                 onChanged: (value) {
-                  viewModel.userEmail = value;
+                  viewModel.userName = value;
                 },
               ),
             ),
@@ -88,15 +90,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
-                focusNode: _emailFocus,
-                keyboardType: TextInputType.emailAddress,
-                key: const ValueKey(1),
-                // validator: (value) {
-                //   return idValidation(value!);
-                // },
+                focusNode: _phoneFocus,
+                keyboardType: TextInputType.phone,
+                key: const ValueKey(4),
                 validator: (value) =>
-                    CheckValidate().validateEmail(_emailFocus, value!),
-                controller: _idTextController,
+                    CheckValidate().validatePhone(_emailFocus, value!),
+                controller: _phoneNumberTextController,
                 cursorColor: Colors.grey.shade600,
                 style: const TextStyle(fontSize: 14),
                 decoration: InputDecoration(
@@ -115,11 +114,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
                   hintText: '전화번호를 입력하세요.',
                 ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  PhoneNumberFormatter()
+                ],
                 onSaved: (value) {
-                  viewModel.userEmail = value!;
+                  viewModel.userPhone = value!;
                 },
                 onChanged: (value) {
-                  viewModel.userEmail = value;
+                  viewModel.userPhone = value;
                 },
               ),
             ),
