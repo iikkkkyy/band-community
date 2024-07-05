@@ -12,7 +12,7 @@ class SignUpViewModel extends ChangeNotifier{
   String userName = '';
   String userEmail = '';
   String userPassword = '';
-  String phoneNumber = '';
+  String userPhone = '';
 
   bool tryValidation() {
     final isValid = formKey.currentState!.validate();
