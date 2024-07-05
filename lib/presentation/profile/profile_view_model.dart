@@ -7,7 +7,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SignUpProfileViewModel extends ChangeNotifier {
-  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  // final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   final formKey = GlobalKey<FormState>();
   bool vocal = true;
   bool guitar = true;
