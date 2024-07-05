@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
 
 class CheckValidate {
-
   String? validateName(FocusNode focusNode, String value) {
     if (value.isEmpty) {
       focusNode.requestFocus();
       return '닉네임을 입력하세요.';
     } else {
+      return null;
+    }
+  }
+
+  String? validatePhone(FocusNode focusNode, String value) {
+    if (value.isEmpty) {
+      focusNode.requestFocus();
+      return '전화번호를 입력하세요.';
+    } else {
+      String pattern = r'^010-\d{4}-\d{4}$';
+      RegExp regExp = RegExp(pattern);
+      if (!regExp.hasMatch(value)) {
+        focusNode.requestFocus(); //포커스를 해당 textformfield에 맞춘다.
+        return '잘못된 전화번호 형식입니다.';
+      } else {
         return null;
+      }
     }
   }
 
