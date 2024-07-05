@@ -168,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    '회원가입',
+                    '이메일 회원가입',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,
@@ -176,6 +176,56 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: FontWeight.w400,
                       height: 0.09,
                       letterSpacing: -0.43,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              print('카카오 연동하기');
+              context.go('/signup');
+            },
+            child: Container(
+              width: 358,
+              height: 55,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFEE500), // 여기에서 backgroundColor 지정
+                borderRadius: BorderRadius.circular(12),
+                // border: Border.all(width: 1),
+              ),
+              // ShapeDecoration(
+              //   color: const Color(0xFFFFEE500),
+              //   shape: RoundedRectangleBorder(
+              //     side: const BorderSide(width: 0),
+              //     borderRadius: BorderRadius.circular(12),
+              //   ),
+              // ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Positioned(
+                    left: 6, // 로고가 버튼의 왼쪽 끝에서 20px 떨어지도록 위치
+                    child: SvgPicture.asset(
+                      'assets/logo/kakao_logo.svg', // 여기에 SVG 파일 경로를 입력
+                      width: 20,
+                      height: 20,
+                    ),
+                  ),
+                  const Center(
+                    child: Text(
+                      '카카오 로그인',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontFamily: 'Noto Sans',
+                        fontWeight: FontWeight.w200,
+                        height: 1.5,
+                        letterSpacing: -0.43,
+                      ),
                     ),
                   ),
                 ],
