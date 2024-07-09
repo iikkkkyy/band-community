@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:band_community/presentation/profile/profile_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -98,45 +100,13 @@ class _SignUpProfileScreenState extends State<SignUpProfileScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
-                    hintText: '이름을 입력하세요.',
+                    hintText: '닉네임을 입력하세요.',
                   ),
                   onSaved: (value) {
                     // viewModel.userEmail = value!;
                   },
                   onChanged: (value) {
                     // viewModel.userEmail = value;
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 13,
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: TextFormField(
-                  key: const ValueKey(2),
-                  keyboardType: TextInputType.phone,
-                  controller: _phoneNumberTextController,
-                  cursorColor: Colors.grey.shade600,
-                  style: const TextStyle(fontSize: 14),
-                  decoration: InputDecoration(
-                    prefix: Text(' '),
-                    focusColor: Colors.black,
-                    hoverColor: Colors.black,
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
-                    hintText: '연락처를 입력하세요.',
-                  ),
-                  onSaved: (value) {
-                    // viewModel.userPassword = value!;
-                  },
-                  onChanged: (value) {
-                    // viewModel.userPassword = value;
                   },
                 ),
               ),
@@ -370,14 +340,16 @@ class _SignUpProfileScreenState extends State<SignUpProfileScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        height: 105,
+      bottomNavigationBar: SizedBox(
+        height: 115,
         child: Padding(
-          padding: EdgeInsets.all(30),
+          padding: const EdgeInsets.all(30),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.black,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-            onPressed: () {},
-            child: Text('설정 완료',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+            onPressed: () async {
+              await viewModel.saveImage();
+            },
+            child: const Text('설정 완료',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
           ),
         ),
       ),
