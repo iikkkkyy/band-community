@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'login_view_model.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -183,9 +184,9 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               print('카카오 연동하기');
-              context.go('/signup');
+              await viewModel.authentication.auth.signInWithOAuth(OAuthProvider.kakao);
             },
             child: Container(
               width: 358,
@@ -193,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
-                color: const Color(0xFFFFEE500), // 여기에서 backgroundColor 지정
+                color: const Color(0xffffee500), // 여기에서 backgroundColor 지정
                 borderRadius: BorderRadius.circular(12),
                 // border: Border.all(width: 1),
               ),
