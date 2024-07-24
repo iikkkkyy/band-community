@@ -1,5 +1,7 @@
 import 'package:band_community/presentation/login/login_screen.dart';
 import 'package:band_community/presentation/login/login_view_model.dart';
+import 'package:band_community/presentation/mainpage/main_page_screen.dart';
+import 'package:band_community/presentation/mainpage/main_page_view_model.dart';
 import 'package:band_community/presentation/profile/profile_screen.dart';
 import 'package:band_community/presentation/profile/profile_view_model.dart';
 import 'package:band_community/presentation/resetpassword/reset_password_screen.dart';
@@ -39,6 +41,13 @@ final router = GoRouter(
       builder: (context, state) => ChangeNotifierProvider(
         create: (_) => getIt<SignUpProfileViewModel>(),
         child: const SignUpProfileScreen(),
+      ),
+    ),
+    GoRoute(
+      path: '/main',
+      builder: (context, state) => ChangeNotifierProvider(
+        create: (_) => getIt<MainViewModel>(),
+        child: const MainPageScreen(),
       ),
     ),
   ],
