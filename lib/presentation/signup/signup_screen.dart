@@ -174,6 +174,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
+                focusNode: _passwordFocus,
                 key: const ValueKey(2),
                 validator: (value) =>
                     CheckValidate().validatePassword(_passwordFocus, value!),
@@ -302,7 +303,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   print('Password : ${viewModel.userPassword}');
                 }
                 else if(!nickNameValid){
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                      content: Text('중복된 닉네임입니다.'),
                     backgroundColor: Colors.red,
                   ));
