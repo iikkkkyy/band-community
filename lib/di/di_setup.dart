@@ -1,3 +1,4 @@
+import 'package:band_community/presentation/mainpage/main_page_view_model.dart';
 import 'package:get_it/get_it.dart';
 
 import '../presentation/login/login_view_model.dart';
@@ -12,4 +13,5 @@ void diSetup() {
   getIt.registerFactory(() => LoginViewModel());
   getIt.registerFactory(() => ResetPasswordViewModel());
   getIt.registerFactory(() => SignUpProfileViewModel());
+  getIt.registerFactory(() => MainViewModel());
 }
