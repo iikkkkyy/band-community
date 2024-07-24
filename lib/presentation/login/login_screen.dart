@@ -134,10 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           bool isValid = viewModel.tryValidation();
                           if (isValid) {
                             try {
-                              await viewModel.authentication.auth.signInWithPassword(
-                                email: viewModel.userEmail,
-                                password: viewModel.userPassword,
-                              );
+                              await viewModel.signIn(context);
                               print('로그인 성공');
                               context.go('/main');
                             } catch (e) {
@@ -222,8 +219,7 @@ class _LoginScreenState extends State<LoginScreen> {
               TextButton(
                 onPressed: () async {
                   print('카카오 연동하기');
-                  await viewModel.authentication.auth
-                      .signInWithOAuth(OAuthProvider.kakao);
+                  await viewModel.signInWithKakaoUseCase;
                 },
                 child: Container(
                   width: 358,

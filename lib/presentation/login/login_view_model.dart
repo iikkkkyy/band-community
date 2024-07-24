@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class LoginViewModel extends ChangeNotifier{
-  final formKey = GlobalKey<FormState>();
-  // final _authentication = FirebaseAuth.instance;
-  final authentication = Supabase.instance.client;
+import '../../domain/use_case/sign_in_use_case.dart';
+import '../../domain/use_case/sign_in_with_kakao_use_case.dart';
 
-  // TODO 후에 model 생성 예정
+class LoginViewModel extends ChangeNotifier {
+  final formKey = GlobalKey<FormState>();
+  final SignInUseCase signInUseCase;
+  final SignInWithKakaoUseCase signInWithKakaoUseCase;
+
   String userEmail = '';
   String userPassword = '';
 
-
+  LoginViewModel({
+    required this.signInUseCase,
+    required this.signInWithKakaoUseCase,
+  });
 
   bool tryValidation() {
     final isValid = formKey.currentState!.validate();
@@ -23,4 +28,34 @@ class LoginViewModel extends ChangeNotifier{
       return false;
     }
   }
+
+  Future<void> signIn(BuildContext context) async {
+    if (tryValidation()) {
+      try {
+        await signInUseCase.execute(userEmail, userPassword);
+        print('로그인 성공');
+        // 로그인 성공 시 추가 로직
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('로그인 실패'),
+          backgroundColor: Colors.red,
+        ));
+      }
+    }
+  }
+
+  Future<void> signInWithKakao(BuildContext context) async {
+    try {
+      await signInWithKakaoUseCase.execute();
+      print('카카오 로그인 성공');
+      // 카카오 로그인 성공 시 추가 로직
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('카카오 로그인 실패'),
+        backgroundColor: Colors.red,
+      ));
+    }
+  }
+
+
 }

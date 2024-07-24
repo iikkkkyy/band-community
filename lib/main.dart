@@ -6,16 +6,12 @@ import 'package:band_community/config/supabase_options.dart';
 // import 'firebase_options.dart';
 
 void main() async {
-  diSetup();
   WidgetsFlutterBinding.ensureInitialized();
-  // Firebase => Supabase 변경
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
   await Supabase.initialize(
     url: SUPABASE_URL,
     anonKey: SUPABASE_ANON_KEY,
   );
+  diSetup();
   runApp(const MyApp());
 }
 
