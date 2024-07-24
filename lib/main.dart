@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerConfig: router,
-      title: 'Flutter Demo',
+      title: 'Band Go',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         useMaterial3: true,
