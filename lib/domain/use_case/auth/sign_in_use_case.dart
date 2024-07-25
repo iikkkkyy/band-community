@@ -1,7 +1,7 @@
-import 'package:band_community/domain/repository/user_login_repository.dart';
+import 'package:band_community/domain/repository/auth_repository.dart';
 
 class SignInUseCase {
-  final UserLoginRepository repository;
+  final AuthRepository repository;
 
   SignInUseCase(this.repository);
 
