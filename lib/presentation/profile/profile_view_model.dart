@@ -3,26 +3,48 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:band_community/domain/use_case/save_image_use_case.dart';
+import 'package:band_community/domain/use_case/save_profile_use_case.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../domain/model/profile/region_model.dart';
+import '../../domain/model/profile/session_model.dart';
+import '../../domain/use_case/get_regions_use_case.dart';
+
 class SignUpProfileViewModel extends ChangeNotifier {
-  final authentication = Supabase.instance.client;
+  final SaveImageUseCase saveImageUseCase;
+  final GetRegionsUseCase getRegionsUseCase;
+  final SaveProfileUseCase saveProfileUseCase;
   final formKey = GlobalKey<FormState>();
-  bool vocal = true;
-  bool guitar = true;
-  bool bass = true;
-  bool drum = true;
-  bool synth = true;
-  bool manager = true;
-  bool etc = true;
+
+  List<Sessions> sessions = [
+    Sessions(name: '🎙️보컬'),
+    Sessions(name: '🎸기타'),
+    Sessions(name: '⛺️베이스'),
+    Sessions(name: '🥁️드럼'),
+    Sessions(name: '🎹️건반'),
+    Sessions(name: '🧑‍💼매니저'),
+    Sessions(name: '🎵etc.'),
+  ];
 
   XFile? image = XFile('assets/profile/Default.png');
   bool imageFlag = false;
 
+  List<Region> regions = [];
+  String? selectedProvince;
+  String? selectedCity;
+  String introduction = '';
+
+  SignUpProfileViewModel({
+    required this.saveImageUseCase,
+    required this.getRegionsUseCase,
+    required this.saveProfileUseCase,
+  });
+
   ImageProvider<Object>? getUserImage() {
     if (image == null) return const AssetImage('assets/profile/Default.png');
     if (imageFlag) {
-      ChangeNotifier();
+      notifyListeners();
       return FileImage(io.File(image!.path));
     } else {
       return const AssetImage('assets/profile/Default.png');
@@ -36,7 +58,7 @@ class SignUpProfileViewModel extends ChangeNotifier {
     String? croppedFilePath = await _cropImage(image!);
     image = XFile(croppedFilePath!);
     imageFlag = true;
-    ChangeNotifier();
+    notifyListeners();
   }
 
   Future<String?> _cropImage(XFile file) async {
@@ -59,11 +81,42 @@ class SignUpProfileViewModel extends ChangeNotifier {
     return croppedFile?.path;
   }
 
-  Future<void> saveImage() async {
-    await authentication.storage.from('user_profile_images').upload(
-          'public/${authentication.auth.currentUser?.id}',
-          File(image!.path),
-          fileOptions: const FileOptions(upsert: true),
-        );
+  Future<void> loadRegions() async {
+    regions = await getRegionsUseCase.execute();
+    notifyListeners();
+  }
+
+  void selectProvince(String province) {
+    selectedProvince = province;
+    selectedCity = null; // Reset city when province changes
+    notifyListeners();
+  }
+
+  void selectCity(String city) {
+    selectedCity = city;
+    notifyListeners();
+  }
+
+  void toggleSession(Sessions sessions) {
+    sessions.isSelected = !sessions.isSelected;
+    notifyListeners();
+  }
+
+  Future<void> saveProfile() async {
+    final userId = Supabase.instance.client.auth.currentUser?.id;
+    if (userId != null) {
+      List<String> selectedSessions = sessions
+          .where((sessions) => sessions.isSelected)
+          .map((sessions) => sessions.name)
+          .toList();
+      final region = selectedProvince != null && selectedCity != null
+          ? '$selectedProvince $selectedCity'
+          : '';
+      await saveProfileUseCase.execute(
+          userId, introduction, region, selectedSessions);
+      if (image != null) {
+        await saveImageUseCase.execute(io.File(image!.path), userId);
+      }
+    }
   }
 }
