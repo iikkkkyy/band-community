@@ -270,44 +270,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             TextButton(
               onPressed: () async {
-                bool isValid = viewModel.tryValidation();
-                bool nickNameValid = await viewModel.checkUserNameExists(viewModel.userName);
-                if (isValid && nickNameValid) {
-                  try {
-                    await viewModel.checkUserNameExists(viewModel.userName);
-                    await viewModel.authentication.auth.signUp(
-                      email: viewModel.userEmail,
-                      password: viewModel.userPassword,
-                      data: {
-                        'display_name': viewModel.userName,
-                        'user_name': viewModel.userName,
-                        'phone': viewModel.userPhone,
-                      },
-                    );
-                    print('회원가입 성공');
-                    // 로그인을 해야될까?
-                    await viewModel.authentication.auth.signInWithPassword(
-                        email: viewModel.userEmail,
-                        password: viewModel.userPassword,
-                        );
-                    print('로그인 성공');
-                    context.go('/profile');
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(getSupaBaseErrorMessage(e.toString())),
-                      backgroundColor: Colors.red,
-                    ));
-                  }
-
-                  print('Email : ${viewModel.userEmail}');
-                  print('Password : ${viewModel.userPassword}');
-                }
-                else if(!nickNameValid){
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                     content: Text('중복된 닉네임입니다.'),
-                    backgroundColor: Colors.red,
-                  ));
-                }
+                viewModel.signUp(context);
               },
               child: Container(
                 width: 358,
