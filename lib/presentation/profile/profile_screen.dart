@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../../domain/model/profile/region_model.dart';
+
 class SignUpProfileScreen extends StatefulWidget {
   const SignUpProfileScreen({super.key});
 
@@ -14,8 +16,6 @@ class SignUpProfileScreen extends StatefulWidget {
 }
 
 class _SignUpProfileScreenState extends State<SignUpProfileScreen> {
-  final _nameTextController = TextEditingController();
-  final _phoneNumberTextController = TextEditingController();
   final _introduceTextController = TextEditingController();
 
   @override
@@ -84,44 +84,12 @@ class _SignUpProfileScreenState extends State<SignUpProfileScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextFormField(
-                  keyboardType: TextInputType.emailAddress,
-                  key: const ValueKey(1),
-                  controller: _nameTextController,
-                  cursorColor: Colors.grey.shade600,
-                  style: const TextStyle(fontSize: 14),
-                  decoration: InputDecoration(
-                    prefix: Text(' '),
-                    focusColor: Colors.black,
-                    hoverColor: Colors.black,
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
-                    hintText: '닉네임을 입력하세요.',
-                  ),
-                  onSaved: (value) {
-                    // viewModel.userEmail = value!;
-                  },
-                  onChanged: (value) {
-                    // viewModel.userEmail = value;
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 13,
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: TextFormField(
                   key: const ValueKey(2),
                   controller: _introduceTextController,
                   cursorColor: Colors.grey.shade600,
                   style: const TextStyle(fontSize: 14),
                   decoration: InputDecoration(
-                    prefix: Text(' '),
+                    prefix: const Text(' '),
                     focusColor: Colors.black,
                     hoverColor: Colors.black,
                     focusedBorder: OutlineInputBorder(
@@ -133,16 +101,50 @@ class _SignUpProfileScreenState extends State<SignUpProfileScreen> {
                     hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
                     hintText: '한줄소개를 입력하세요.',
                   ),
-                  onSaved: (value) {
-                    // viewModel.userPassword = value!;
-                  },
                   onChanged: (value) {
-                    // viewModel.userPassword = value;
+                    viewModel.introduction = value;
                   },
                 ),
               ),
             ],
           ),
+          const SizedBox(
+            height: 24,
+          ),
+          DropdownButton<String>(
+            hint: const Text("도 선택"),
+            value: viewModel.selectedProvince,
+            onChanged: (String? newValue) {
+              if (newValue != null) {
+                viewModel.selectProvince(newValue);
+              }
+            },
+            items: viewModel.regions.map((Region region) {
+              return DropdownMenuItem<String>(
+                value: region.province,
+                child: Text(region.province),
+              );
+            }).toList() as dynamic,
+          ),
+          if (viewModel.selectedProvince != null)
+            DropdownButton<String>(
+              hint: const Text("시/군/구 선택"),
+              value: viewModel.selectedCity,
+              onChanged: (String? newValue) {
+                if (newValue != null) {
+                  viewModel.selectCity(newValue);
+                }
+              },
+              items: viewModel.regions
+                  .firstWhere((region) => region.province == viewModel.selectedProvince!)
+                  .cities
+                  .map((String city) {
+                return DropdownMenuItem<String>(
+                  value: city,
+                  child: Text(city),
+                );
+              }).toList(),
+            ),
           const SizedBox(
             height: 24,
           ),
@@ -163,180 +165,21 @@ class _SignUpProfileScreenState extends State<SignUpProfileScreen> {
           const SizedBox(
             height: 10,
           ),
-          Row(
-            children: [
-              const SizedBox(
-                width: 20,
-              ),
-              SizedBox(
-                height: 37,
-                width: 67,
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      viewModel.vocal = !viewModel.vocal;
-                    });
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor:
-                        viewModel.vocal == true ? Colors.grey : Colors.black,
-                  ),
-                  child: const Text(
-                    '🎙️보컬',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w700),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              SizedBox(
-                height: 37,
-                width: 67,
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      viewModel.guitar = !viewModel.guitar;
-                    });
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor:
-                        viewModel.guitar == true ? Colors.grey : Colors.black,
-                  ),
-                  child: const Text(
-                    '🎸기타',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w700),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              SizedBox(
-                height: 37,
-                width: 79,
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      viewModel.bass = !viewModel.bass;
-                    });
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor:
-                        viewModel.bass == true ? Colors.grey : Colors.black,
-                  ),
-                  child: const Text(
-                    '⛺️베이스',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w700),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              SizedBox(
-                height: 37,
-                width: 67,
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      viewModel.drum = !viewModel.drum;
-                    });
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor:
-                        viewModel.drum == true ? Colors.grey : Colors.black,
-                  ),
-                  child: const Text(
-                    '🥁️드럼',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w700),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              const SizedBox(
-                width: 20,
-              ),
-              SizedBox(
-                height: 37,
-                width: 67,
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      viewModel.synth = !viewModel.synth;
-                    });
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor:
-                        viewModel.synth == true ? Colors.grey : Colors.black,
-                  ),
-                  child: const Text(
-                    '🎹️건반',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w700),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              SizedBox(
-                height: 37,
-                width: 79,
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      viewModel.manager = !viewModel.manager;
-                    });
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor:
-                        viewModel.manager == true ? Colors.grey : Colors.black,
-                  ),
-                  child: const Text(
-                    '🧑‍💼매니저',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w700),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              SizedBox(
-                height: 37,
-                width: 70,
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      viewModel.etc = !viewModel.etc;
-                    });
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor:
-                    viewModel.etc == true ? Colors.grey : Colors.black,
-                  ),
-                  child: const Text(
-                    '🎵etc.',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w700),
-                  ),
-                ),
-              ),
-            ],
+          Wrap(
+            spacing: 8.0,
+            runSpacing: 4.0,
+            children: viewModel.sessions.map((session) {
+              return FilterChip(
+                label: Text(session.name),
+                selected: session.isSelected,
+                onSelected: (bool selected) {
+                  viewModel.toggleSession(session);
+                },
+                selectedColor: Colors.grey,
+                backgroundColor: Colors.black,
+                labelStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+              );
+            }).toList(),
           ),
         ],
       ),
@@ -345,11 +188,19 @@ class _SignUpProfileScreenState extends State<SignUpProfileScreen> {
         child: Padding(
           padding: const EdgeInsets.all(30),
           child: ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.black,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))),
             onPressed: () async {
-              await viewModel.saveImage();
+              await viewModel.saveProfile();
+              context.go('/main');
             },
-            child: const Text('설정 완료',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+            child: const Text(
+              '설정 완료',
+              style:
+              TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
           ),
         ),
       ),
