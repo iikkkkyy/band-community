@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:go_router/go_router.dart';
+import '../../domain/use_case/auth/check_user_name_exists_use_case.dart';
+import '../../domain/use_case/auth/sign_in_use_case.dart';
+import '../../domain/use_case/auth/sign_up_use_case.dart';
 
 class SignUpViewModel extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
+  final SignUpUseCase signUpUseCase;
+  final SignInUseCase signInUseCase;
+  final CheckUserNameExistsUseCase checkUserNameExistsUseCase;
 
-  // final authentication = FirebaseAuth.instance;
-  final authentication = Supabase.instance.client;
+  SignUpViewModel({
+    required this.signUpUseCase,
+    required this.signInUseCase,
+    required this.checkUserNameExistsUseCase,
+  });
 
-  // TODO 후에 model 생성 예정
   String userName = '';
   String userEmail = '';
   String userPassword = '';
@@ -25,17 +32,34 @@ class SignUpViewModel extends ChangeNotifier {
     }
   }
 
-  Future<bool> checkUserNameExists(String userName) async {
-    final query = await authentication
-        .from('user_profile')
-        .select('id')
-        .eq('user_name', userName)
-        .limit(1);
-    print(query);
-    if (query.isEmpty || (query == "[]")) {
-      return true;
-    } else {
-      return false;
+  Future<bool> checkUserNameExists(String userName) {
+    return checkUserNameExistsUseCase.execute(userName);
+  }
+
+  Future<void> signUp(BuildContext context) async {
+    if (tryValidation()) {
+      bool nickNameValid = await checkUserNameExists(userName);
+      if (nickNameValid) {
+        try {
+          await signUpUseCase.execute(userEmail, userPassword, {
+            'display_name': userName,
+            'user_name': userName,
+            'phone': userPhone,
+          });
+          await signInUseCase.execute(userEmail, userPassword);
+          context.go('/profile');
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(e.toString()),
+            backgroundColor: Colors.red,
+          ));
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('중복된 닉네임입니다.'),
+          backgroundColor: Colors.red,
+        ));
+      }
     }
   }
 }
