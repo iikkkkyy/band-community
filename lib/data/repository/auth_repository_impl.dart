@@ -5,7 +5,6 @@ import '../../domain/repository/auth_repository.dart';
 class AuthRepositoryImpl implements AuthRepository {
   final SupabaseClient client;
 
-
   const AuthRepositoryImpl({
     required this.client,
   });
@@ -21,14 +20,18 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> signUp(String email, String password, Map<String, dynamic> data) async {
+  Future<void> signUp(
+      String email, String password, Map<String, dynamic> data) async {
     await client.auth.signUp(email: email, password: password, data: data);
   }
 
   @override
   Future<bool> checkUserNameExists(String userName) async {
-    final query = await client.from('user_profile').select('id').eq('user_name', userName).limit(1);
+    final query = await client
+        .from('user_profile')
+        .select('id')
+        .eq('user_name', userName)
+        .limit(1);
     return query.isEmpty || (query == "[]");
   }
-
 }
