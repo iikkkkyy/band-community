@@ -1,6 +1,13 @@
 class Sessions {
   final String name;
-  bool isSelected;
+  final String keyword;
 
-  Sessions({required this.name, this.isSelected = false});
+  bool isSelected = false;
+
+  Sessions({
+    required this.name,
+    required this.keyword,
+  });
+
+
 }
