@@ -6,4 +6,5 @@ abstract class ProfileRepository {
   Future<void> saveImage(File image, String userId);
   Future<List<Region>> getRegions();
   Future<void> saveProfile(String userId, String introduction, String region, List<String> sessions);
+  Future<String?> getUserProfileImageUrl(String userId);
 }
