@@ -14,8 +14,8 @@ class _MainPageScreenState extends State<MainPageScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        context.read<MainViewModel>().loadUserProfileImage());
+    Future.microtask(
+        () => context.read<MainViewModel>().loadUserProfileImage());
   }
 
   @override
@@ -28,15 +28,33 @@ class _MainPageScreenState extends State<MainPageScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SvgPicture.asset('assets/icons/MainIcon.svg', height: 30),
+            SvgPicture.asset('assets/icons/MainIcon.svg', height: 35),
             CircleAvatar(
               radius: 20,
               backgroundImage: viewModel.userProfileImageUrl != null
                   ? NetworkImage(viewModel.userProfileImageUrl!)
-                  : const AssetImage('assets/profile/Default.png') as ImageProvider,
+                  : const AssetImage('assets/profile/Default.png')
+                      as ImageProvider,
             ),
           ],
         ),
+      ),
+      floatingActionButton: GestureDetector(
+        onTap: () {
+          // 버튼이 눌렸을 때의 동작을 여기에 추가하세요.
+        },
+        child: Container(
+          height: 56.0, // 원하는 높이
+          width: 56.0, // 원하는 너비
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            shape: BoxShape.circle, // 버튼을 둥글게 만듭니다
+          ),
+          child: const Icon(Icons.add, color: Colors.white),
+        ),
+      ),
+      body: const Center(
+        child: Text('소속된 밴드가 없어요!'),
       ),
     );
   }
