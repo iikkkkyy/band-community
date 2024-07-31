@@ -43,11 +43,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
 
   @override
   Future<void> saveProfile(String userId, String introduction, String region, List<String> sessions) async {
-    await client.from('user_profile').upsert({
-      'user_id': userId,
-      'introduction': introduction,
-      'region': region,
-      'sessions': sessions,
-    });
+    await client.from('user_profile').update({
+      'introduce': introduction,
+      'location': region,
+      'session': sessions,
+    }).eq('id', userId);
   }
 }
