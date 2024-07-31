@@ -1,13 +1,12 @@
+import 'package:band_community/domain/repository/profile_repository.dart';
 import 'dart:io';
-
-import '../repository/profile_repository.dart';
 
 class SaveImageUseCase {
   final ProfileRepository repository;
 
   SaveImageUseCase(this.repository);
 
-  Future<void> execute(File image, String userId) {
-    return repository.saveImage(image, userId);
+  Future<void> execute(File image, String userId) async {
+    await repository.saveImage(image, userId);
   }
 }
