@@ -15,6 +15,7 @@ import '../domain/repository/profile_repository.dart';
 import '../domain/use_case/auth/check_user_name_exists_use_case.dart';
 import '../domain/use_case/auth/sign_up_use_case.dart';
 import '../domain/use_case/get_regions_use_case.dart';
+import '../domain/use_case/get_user_profile_image_use_case.dart';
 import '../domain/use_case/save_image_use_case.dart';
 import '../domain/use_case/save_profile_use_case.dart';
 
@@ -37,6 +38,7 @@ void diSetup() {
   getIt.registerFactory(() => SaveImageUseCase(getIt<ProfileRepository>()));
   getIt.registerFactory(() => GetRegionsUseCase(getIt<ProfileRepository>()));
   getIt.registerFactory(() => SaveProfileUseCase(getIt<ProfileRepository>()));
+  getIt.registerFactory(() => GetUserProfileImageUseCase(getIt<ProfileRepository>()));
 
   // ViewModels
   getIt.registerFactory(() => SignUpViewModel(
@@ -54,5 +56,5 @@ void diSetup() {
     getRegionsUseCase: getIt<GetRegionsUseCase>(),
     saveProfileUseCase: getIt<SaveProfileUseCase>(),
   ));
-  getIt.registerFactory(() => MainViewModel());
+  getIt.registerFactory(() => MainViewModel(getIt<GetUserProfileImageUseCase>()));
 }
