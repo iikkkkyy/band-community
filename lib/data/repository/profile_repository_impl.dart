@@ -49,4 +49,17 @@ class ProfileRepositoryImpl implements ProfileRepository {
       'session': sessions,
     }).eq('id', userId);
   }
+
+  @override
+  Future<String?> getUserProfileImageUrl(String userId) async {
+    try {
+      final response = await client.storage
+          .from('user_profile_images')
+          .createSignedUrl('public/$userId', 60 * 60); // URL valid for 1 hour
+      return response;
+    } catch (error) {
+      print('Error loading user profile image: $error');
+      return null;
+    }
+  }
 }
