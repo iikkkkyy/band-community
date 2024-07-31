@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:band_community/domain/use_case/save_image_use_case.dart';
+import 'package:band_community/domain/use_case/get_regions_use_case.dart';
 import 'package:band_community/domain/use_case/save_profile_use_case.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../domain/model/profile/region_model.dart';
 import '../../domain/model/profile/session_model.dart';
-import '../../domain/use_case/get_regions_use_case.dart';
 
 class SignUpProfileViewModel extends ChangeNotifier {
   final SaveImageUseCase saveImageUseCase;
@@ -18,21 +18,22 @@ class SignUpProfileViewModel extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
 
   List<Sessions> sessions = [
-    Sessions(name: '🎙️보컬'),
-    Sessions(name: '🎸기타'),
-    Sessions(name: '⛺️베이스'),
-    Sessions(name: '🥁️드럼'),
-    Sessions(name: '🎹️건반'),
-    Sessions(name: '🧑‍💼매니저'),
-    Sessions(name: '🎵etc.'),
+    Sessions(name: '🎙️보컬', keyword: 'vocal'),
+    Sessions(name: '🎸기타', keyword: 'guitar'),
+    Sessions(name: '⛺️베이스', keyword: 'bass'),
+    Sessions(name: '🥁️드럼', keyword: 'drum'),
+    Sessions(name: '🎹️건반', keyword: 'keyboard'),
+    Sessions(name: '🧑‍💼매니저', keyword: 'manager'),
+    Sessions(name: '🎵etc.', keyword: 'etc'),
   ];
+
 
   XFile? image = XFile('assets/profile/Default.png');
   bool imageFlag = false;
 
   List<Region> regions = [];
-  String? selectedProvince;
-  String? selectedCity;
+  String? selectedProvince = '';
+  String? selectedCity = '';
   String introduction = '';
 
   SignUpProfileViewModel({
@@ -44,7 +45,6 @@ class SignUpProfileViewModel extends ChangeNotifier {
   ImageProvider<Object>? getUserImage() {
     if (image == null) return const AssetImage('assets/profile/Default.png');
     if (imageFlag) {
-      notifyListeners();
       return FileImage(io.File(image!.path));
     } else {
       return const AssetImage('assets/profile/Default.png');
@@ -81,14 +81,21 @@ class SignUpProfileViewModel extends ChangeNotifier {
     return croppedFile?.path;
   }
 
+  Future<void> saveImage() async {
+    final userId = Supabase.instance.client.auth.currentUser?.id;
+    if (userId == null) return;
+    await saveImageUseCase.execute(io.File(image!.path), userId);
+  }
+
   Future<void> loadRegions() async {
     regions = await getRegionsUseCase.execute();
+    print(regions);
     notifyListeners();
   }
 
   void selectProvince(String province) {
     selectedProvince = province;
-    selectedCity = null; // Reset city when province changes
+    selectedCity = null;
     notifyListeners();
   }
 
@@ -97,26 +104,19 @@ class SignUpProfileViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleSession(Sessions sessions) {
-    sessions.isSelected = !sessions.isSelected;
-    notifyListeners();
+  Future<void> saveProfile() async {
+    List<String> selectedSessionKeywords = sessions
+        .where((session) => session.isSelected)
+        .map((session) => session.keyword)
+        .toList();
+    final userId = Supabase.instance.client.auth.currentUser?.id;
+    print(introduction + selectedProvince.toString() + selectedCity.toString());
+    if (userId == null) return;
+    await saveProfileUseCase.execute(userId, introduction, '$selectedProvince $selectedCity', selectedSessionKeywords);
   }
 
-  Future<void> saveProfile() async {
-    final userId = Supabase.instance.client.auth.currentUser?.id;
-    if (userId != null) {
-      List<String> selectedSessions = sessions
-          .where((sessions) => sessions.isSelected)
-          .map((sessions) => sessions.name)
-          .toList();
-      final region = selectedProvince != null && selectedCity != null
-          ? '$selectedProvince $selectedCity'
-          : '';
-      await saveProfileUseCase.execute(
-          userId, introduction, region, selectedSessions);
-      if (image != null) {
-        await saveImageUseCase.execute(io.File(image!.path), userId);
-      }
-    }
+  void toggleSession(Sessions session) {
+    session.isSelected = !session.isSelected;
+    notifyListeners();
   }
 }
