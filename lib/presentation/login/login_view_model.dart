@@ -40,6 +40,7 @@ class LoginViewModel extends ChangeNotifier {
           content: Text('로그인 실패'),
           backgroundColor: Colors.red,
         ));
+        throw Exception('로그인 실패');
       }
     }
   }
