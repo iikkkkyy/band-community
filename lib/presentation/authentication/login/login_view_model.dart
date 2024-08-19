@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../domain/use_case/auth/sign_in_use_case.dart';
-import '../../domain/use_case/auth/sign_in_with_kakao_use_case.dart';
+import '../../../domain/use_case/auth/sign_in_use_case.dart';
+import '../../../domain/use_case/auth/sign_in_with_kakao_use_case.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
