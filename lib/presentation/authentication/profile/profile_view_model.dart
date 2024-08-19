@@ -8,8 +8,9 @@ import 'package:band_community/domain/use_case/get_regions_use_case.dart';
 import 'package:band_community/domain/use_case/save_profile_use_case.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../domain/model/profile/region_model.dart';
-import '../../domain/model/profile/session_model.dart';
+import '../../../domain/model/profile/region_model.dart';
+import '../../../domain/model/profile/session_model.dart';
+
 
 class SignUpProfileViewModel extends ChangeNotifier {
   final SaveImageUseCase saveImageUseCase;
