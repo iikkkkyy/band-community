@@ -1,10 +1,10 @@
-import 'package:band_community/presentation/resetpassword/reset_password_view_model.dart';
-import 'package:band_community/presentation/signup/error_case/firebase_auth_error_code.dart';
-import 'package:band_community/presentation/signup/error_case/signup_validation.dart';
-import 'package:band_community/presentation/signup/signup_screen_view_model.dart';
+import 'package:band_community/presentation/authentication/resetpassword/reset_password_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import '../signup/error_case/firebase_auth_error_code.dart';
+import '../signup/error_case/signup_validation.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
