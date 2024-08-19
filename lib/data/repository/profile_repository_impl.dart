@@ -10,8 +10,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
   ProfileRepositoryImpl({required this.client});
 
   @override
-  Future<void> saveImage(File image, String userId) async {
-    await client.storage.from('user_profile_images').upload(
+  Future<void> saveImage(File image, String userId, String bucketName) async {
+    await client.storage.from(bucketName).upload(
       'public/$userId',
       image,
       fileOptions: const FileOptions(upsert: true),

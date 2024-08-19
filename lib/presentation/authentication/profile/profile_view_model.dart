@@ -11,7 +11,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../domain/model/profile/region_model.dart';
 import '../../../domain/model/profile/session_model.dart';
 
-
 class SignUpProfileViewModel extends ChangeNotifier {
   final SaveImageUseCase saveImageUseCase;
   final GetRegionsUseCase getRegionsUseCase;
@@ -27,7 +26,6 @@ class SignUpProfileViewModel extends ChangeNotifier {
     Sessions(name: '🧑‍💼매니저', keyword: 'manager'),
     Sessions(name: '🎵etc.', keyword: 'etc'),
   ];
-
 
   XFile? image = XFile('assets/profile/Default.png');
   bool imageFlag = false;
@@ -85,7 +83,8 @@ class SignUpProfileViewModel extends ChangeNotifier {
   Future<void> saveImage() async {
     final userId = Supabase.instance.client.auth.currentUser?.id;
     if (userId == null) return;
-    await saveImageUseCase.execute(io.File(image!.path), userId);
+    await saveImageUseCase.execute(
+        io.File(image!.path), userId, 'user_profile_images');
   }
 
   Future<void> loadRegions() async {
@@ -113,7 +112,8 @@ class SignUpProfileViewModel extends ChangeNotifier {
     final userId = Supabase.instance.client.auth.currentUser?.id;
     print(introduction + selectedProvince.toString() + selectedCity.toString());
     if (userId == null) return;
-    await saveProfileUseCase.execute(userId, introduction, '$selectedProvince $selectedCity', selectedSessionKeywords);
+    await saveProfileUseCase.execute(userId, introduction,
+        '$selectedProvince $selectedCity', selectedSessionKeywords);
   }
 
   void toggleSession(Sessions session) {
