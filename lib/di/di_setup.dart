@@ -1,10 +1,6 @@
 import 'package:band_community/domain/use_case/auth/sign_in_use_case.dart';
 import 'package:band_community/domain/use_case/auth/sign_in_with_kakao_use_case.dart';
 import 'package:band_community/presentation/mainpage/main_page_view_model.dart';
-import 'package:band_community/presentation/login/login_view_model.dart';
-import 'package:band_community/presentation/profile/profile_view_model.dart';
-import 'package:band_community/presentation/resetpassword/reset_password_view_model.dart';
-import 'package:band_community/presentation/signup/signup_screen_view_model.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -18,6 +14,10 @@ import '../domain/use_case/get_regions_use_case.dart';
 import '../domain/use_case/get_user_profile_image_use_case.dart';
 import '../domain/use_case/save_image_use_case.dart';
 import '../domain/use_case/save_profile_use_case.dart';
+import '../presentation/authentication/login/login_view_model.dart';
+import '../presentation/authentication/profile/profile_view_model.dart';
+import '../presentation/authentication/resetpassword/reset_password_view_model.dart';
+import '../presentation/authentication/signup/signup_screen_view_model.dart';
 
 final getIt = GetIt.instance;
 
