@@ -6,6 +6,8 @@ import 'package:band_community/presentation/authentication/resetpassword/reset_p
 import 'package:band_community/presentation/authentication/resetpassword/reset_password_view_model.dart';
 import 'package:band_community/presentation/authentication/signup/signup_screen.dart';
 import 'package:band_community/presentation/authentication/signup/signup_screen_view_model.dart';
+import 'package:band_community/presentation/mainpage/create_band/create_band_screen.dart';
+import 'package:band_community/presentation/mainpage/create_band/create_band_view_model.dart';
 import 'package:band_community/presentation/mainpage/main_page_screen.dart';
 import 'package:band_community/presentation/mainpage/main_page_view_model.dart';
 import 'package:go_router/go_router.dart';
@@ -51,10 +53,10 @@ final router = GoRouter(
       ),
       routes: [
         GoRoute(
-          path: 'create-band',
+          path: 'createBand',
           builder: (context, state) => ChangeNotifierProvider(
             create: (_) => getIt<CreateBandViewModel>(),
-            child: const CreateBandScreen(),
+            child: CreateBandScreen(),
           ),
         ),
       ],
