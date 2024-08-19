@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../domain/use_case/auth/check_user_name_exists_use_case.dart';
-import '../../domain/use_case/auth/sign_in_use_case.dart';
-import '../../domain/use_case/auth/sign_up_use_case.dart';
+
+import '../../../domain/use_case/auth/check_user_name_exists_use_case.dart';
+import '../../../domain/use_case/auth/sign_in_use_case.dart';
+import '../../../domain/use_case/auth/sign_up_use_case.dart';
 
 class SignUpViewModel extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
