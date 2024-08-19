@@ -6,7 +6,7 @@ class SaveImageUseCase {
 
   SaveImageUseCase(this.repository);
 
-  Future<void> execute(File image, String userId) async {
-    await repository.saveImage(image, userId);
+  Future<void> execute(File image, String userId, String bucketName) async {
+    await repository.saveImage(image, userId, bucketName);
   }
 }
