@@ -1,12 +1,11 @@
-import 'package:band_community/presentation/signup/error_case/firebase_auth_error_code.dart';
-import 'package:band_community/presentation/signup/error_case/signup_validation.dart';
-import 'package:band_community/presentation/signup/error_case/supabase_auth_error_code.dart';
-import 'package:band_community/presentation/signup/phone_number_formatter.dart';
-import 'package:band_community/presentation/signup/signup_screen_view_model.dart';
+import 'package:band_community/presentation/authentication/signup/phone_number_formatter.dart';
+import 'package:band_community/presentation/authentication/signup/signup_screen_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import 'error_case/signup_validation.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
