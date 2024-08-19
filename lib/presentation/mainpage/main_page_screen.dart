@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'main_page_view_model.dart';
 
@@ -41,7 +42,7 @@ class _MainPageScreenState extends State<MainPageScreen> {
       ),
       floatingActionButton: GestureDetector(
         onTap: () {
-          // 버튼이 눌렸을 때의 동작을 여기에 추가하세요.
+          context.go('/main/createBand');
         },
         child: Container(
           height: 56.0, // 원하는 높이
