@@ -1,3 +1,6 @@
+import 'dart:io';
+import '../model/profile/band_model.dart';
+
 abstract class BandRepository {
-  Future<void> createBand(String name, String description, String groupId);
+  Future<List<Band>> getUserBands(String userId);
 }
