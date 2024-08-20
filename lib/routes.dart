@@ -56,7 +56,7 @@ final router = GoRouter(
           path: 'createBand',
           builder: (context, state) => ChangeNotifierProvider(
             create: (_) => getIt<CreateBandViewModel>(),
-            child: CreateBandScreen(),
+            child: const CreateBandScreen(),
           ),
         ),
       ],
