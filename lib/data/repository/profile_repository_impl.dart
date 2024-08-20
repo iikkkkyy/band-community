@@ -62,4 +62,17 @@ class ProfileRepositoryImpl implements ProfileRepository {
       return null;
     }
   }
+
+  @override
+  Future<String?> getGroupProfileImageUrl(String groupId) async {
+    try {
+      final response = await client.storage
+          .from('group_profile_images')
+          .createSignedUrl('public/$groupId', 60 * 60); // URL valid for 1 hour
+      return response;
+    } catch (error) {
+      print('Error loading user profile image: $error');
+      return null;
+    }
+  }
 }
