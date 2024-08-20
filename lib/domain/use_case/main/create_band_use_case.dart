@@ -1,7 +1,7 @@
-import '../../repository/band_repository.dart';
+import '../../repository/band_create_repository.dart';
 
 class CreateBandUseCase {
-  final BandRepository bandRepository;
+  final BandCreateRepository bandRepository;
 
   CreateBandUseCase(this.bandRepository);
 
