@@ -1,5 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:uuid/uuid.dart';
+import '../../domain/model/profile/band_model.dart';
 import '../../domain/repository/band_repository.dart';
 
 class BandRepositoryImpl implements BandRepository {
@@ -8,20 +8,40 @@ class BandRepositoryImpl implements BandRepository {
   BandRepositoryImpl(this.client);
 
   @override
-  Future<void> createBand(String name, String description,String groupId) async {
-    final response = await client.from('groups').insert({
-      'group_id': groupId,
-      'group_name': name,
-      'group_introduce': description,
-    });
+  Future<List<Band>> getUserBands(String userId) async {
+    final response = await client
+        .from('user_groups')
+        .select('group_id')
+        .eq('user_id', userId);
+    print(response.toString());
     print(response);
 
-    final userGroupsResponse = await client.from('user_groups').insert({
-      'role': 'master',
-      'group_id': groupId,
-      'user_id': client.auth.currentUser?.id,
-    });
+    final groupIds = response.map((item) => item['group_id']).toList();
+    print(groupIds);
 
-    print(userGroupsResponse);
+    final List<Band> bands = [];
+
+    for (String groupId in groupIds) {
+      final groupResponse = await client
+          .from('groups')
+          .select('group_name, group_introduce')
+          .eq('group_id', groupId)
+          .single();
+
+      // final imageResponse = await client.storage
+      //     .from('group_profile_images')
+      //     .download('public/$groupId');
+
+      final band = Band(
+        id: groupId,
+        name: groupResponse['group_name'],
+        introduce: groupResponse['group_introduce'],
+        // image: imageResponse, // Assuming the image data is binary
+      );
+
+      bands.add(band);
+    }
+
+    return bands;
   }
 }
