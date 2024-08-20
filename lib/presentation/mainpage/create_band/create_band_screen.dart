@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../main_page_view_model.dart';
 import 'create_band_view_model.dart';
 
 class CreateBandScreen extends StatefulWidget {
@@ -148,8 +149,10 @@ class _CreateBandScreenState extends State<CreateBandScreen> {
             ),
             onPressed: () async {
               await viewModel.createBand();
-              context.go('/main');
+              // context.go('/main');
+              Navigator.pop(context, true);
             },
+
             child: const Text(
               '개설하기',
               style: TextStyle(
